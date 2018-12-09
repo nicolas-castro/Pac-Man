@@ -2,6 +2,13 @@ body{
   background-color: black;
 }
 
+#game-board {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 42%;
+}
+
 #logo {
   display: block;
   margin-left: auto;
@@ -24,10 +31,11 @@ body button {
 }
 
 .tile{
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   display: inline-block;
   vertical-align: top;
+  
 }
 
 .wall {
@@ -37,14 +45,31 @@ body button {
 }
 
 .coin {
-  background-color: white;;
+  background-color: gold;
   border-radius: 50%;
   transform: scale(0.3);
+  border: 2px solid black;
+}
+
+.ground {
+  background-color: black;
+  border: 2px solid black;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  35% {
+    opacity: 0;
+  }
 }
 
 .pacman {
   background-image: url('../images/pacman-right.gif');
   background-size: cover;
+  border: 2px solid black;
   
 }
 
