@@ -76,13 +76,16 @@ body button {
 .left {
   background-image: url('../images/pacman-left.gif');
   background-size: cover;
+  border: 2px solid black;
 }
 
 .down {
   background-image: url('../images/pacman-down.gif');
   background-size: cover;
+  border: 2px solid black;
 }
 .up {
   background-image: url('../images/pacman-up.gif');
   background-size: cover;
+  border: 2px solid black;
 }

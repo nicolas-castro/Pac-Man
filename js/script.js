@@ -19,6 +19,20 @@ window.onload = function() {
   function drawPacman(){
     document.getElementById("game-board").innerHTML += "<div class=' tile pacman'></div>";
   }
+  // 5 =  <div class="tile left"></div>
+  function drawPacmanLeft(){
+    document.getElementById("game-board").innerHTML += "<div class=' tile left'></div>";
+  }
+   // 6 =  <div class="tile up"></div>
+   function drawPacmanUp(){
+    document.getElementById("game-board").innerHTML += "<div class=' tile up'></div>";
+  }
+   // 7 =  <div class="tile down"></div>
+   function drawPacmanDown(){
+    document.getElementById("game-board").innerHTML += "<div class=' tile down'></div>";
+  }
+  
+
 let boardData = [
   [1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1],
   [1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
@@ -50,8 +64,15 @@ function drawMap(){
       } 
       else if(boardData[y][x] === 4){
         drawPacman();
-      } else {
-
+      } 
+      else if(boardData[y][x] === 5){
+        drawPacmanLeft();
+      }
+      else if(boardData[y][x] === 6){
+        drawPacmanUp();
+      }
+      else if(boardData[y][x] === 7){
+        drawPacmanDown();
       }
     }
     document.getElementById("game-board").innerHTML += "<br>";
@@ -70,11 +91,9 @@ Pacman.prototype.move = function(someKeyCode){
   switch(someKeyCode){
     case 37: //Left
       if(boardData[currentGame.pacman.y][currentGame.pacman.x-1] !== 1){
-        console.log(currentGame.pacman.direction);
-        currentGame.pacman.direction = document.getElementsByClassName("left");
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x -= 1;
-        boardData[currentGame.pacman.y][currentGame.pacman.x] = 4;
+        boardData[currentGame.pacman.y][currentGame.pacman.x] = 5;
         drawMap();
       }
     break;
@@ -90,7 +109,7 @@ Pacman.prototype.move = function(someKeyCode){
       if(boardData[currentGame.pacman.y-1][currentGame.pacman.x] !== 1){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y -= 1;
-        boardData[currentGame.pacman.y][currentGame.pacman.x] = 4;
+        boardData[currentGame.pacman.y][currentGame.pacman.x] = 6;
         drawMap(); 
       }
     break;
@@ -98,7 +117,7 @@ Pacman.prototype.move = function(someKeyCode){
       if(boardData[currentGame.pacman.y+1][currentGame.pacman.x] !== 1){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y += 1;
-        boardData[currentGame.pacman.y][currentGame.pacman.x] = 4;
+        boardData[currentGame.pacman.y][currentGame.pacman.x] = 7;
         drawMap();
       }
     break;
@@ -119,7 +138,7 @@ function startGame() {
   currentPacman = new Pacman();
   currentGame.pacman = currentPacman;
   drawMap();
-  console.log("the game: ", currentGame.pacman);
+  console.log("the game: ", currentGame.pacman.direction);
   
 
 }
