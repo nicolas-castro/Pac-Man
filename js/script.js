@@ -34,6 +34,7 @@ window.onload = function() {
   
 
 let boardData = [
+  
   [1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1],
   [1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
   [1,2,1,2,1,2,1,2,1,1,1,1,1,1,1,1,2,1],
@@ -82,7 +83,6 @@ function drawMap(){
 const Pacman = function(){
   this.x = 9;
   this.y = 5;
-  this.direction = document.getElementsByClassName("pacman");
 }
 
 
@@ -94,6 +94,9 @@ Pacman.prototype.move = function(someKeyCode){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x -= 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 5;
+        if(currentPacman.x < 0){
+          currentPacman.x = 17;
+        }
         drawMap();
       }
     break;
@@ -102,6 +105,9 @@ Pacman.prototype.move = function(someKeyCode){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x += 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 4;
+        if(currentPacman.x > 16){
+          currentPacman.x = 0;
+        }
         drawMap();
       }
     break;
@@ -110,6 +116,11 @@ Pacman.prototype.move = function(someKeyCode){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y -= 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 6;
+        
+        if(currentPacman.y < 1){
+          currentPacman.y = 12;
+        }
+        
         drawMap(); 
       }
     break;
@@ -118,6 +129,9 @@ Pacman.prototype.move = function(someKeyCode){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y += 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 7;
+        if(currentPacman.y > 11){
+          currentPacman.y = 0;
+        }
         drawMap();
       }
     break;
@@ -138,7 +152,7 @@ function startGame() {
   currentPacman = new Pacman();
   currentGame.pacman = currentPacman;
   drawMap();
-  console.log("the game: ", currentGame.pacman.direction);
+  console.log("the game: ", currentPacman.y);
   
 
 }
@@ -179,3 +193,9 @@ document.onkeydown = function(event){
 
 
 };
+function newFunction(currentPacman) {
+  if (currentPacman.x < 0) {
+    currentPacman.x = 17;
+  }
+}
+
