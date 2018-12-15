@@ -2,6 +2,8 @@ window.onload = function() {
   document.getElementById("start-button").onclick = function() {
     startGame();
   };
+  
+  
 
   // 1 =  <div class="tile wall"></div>
   function drawWall(){
@@ -31,23 +33,28 @@ window.onload = function() {
    function drawPacmanDown(){
     document.getElementById("game-board").innerHTML += "<div class=' tile down'></div>";
   }
-  
+  // 8 = <div class="tile ghost"></div>
+  function drawGhost(){
+    document.getElementById("game-board").innerHTML += "<div class=' tile ghost'></div>";
+  }
+
 
 let boardData = [
-  
-  [1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1],
-  [1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1],
-  [1,2,1,2,1,2,1,2,1,1,1,1,1,1,1,1,2,1],
-  [1,2,1,2,2,2,1,2,2,2,1,2,2,1,2,2,2,1],
-  [1,2,2,2,1,2,1,1,2,1,1,1,2,1,1,2,1,1],
-  [1,1,1,2,1,2,1,1,2,4,2,2,2,2,1,2,1,1],
-  [2,2,2,2,1,2,1,1,2,1,1,2,1,1,1,2,2,2],
-  [1,1,1,2,2,2,2,1,1,1,1,2,2,2,2,2,1,1],
-  [1,1,1,2,1,1,2,2,2,1,1,1,1,1,1,2,1,1],
-  [1,2,2,2,1,1,1,1,2,2,2,2,2,1,2,2,2,1],
-  [1,2,1,2,2,2,2,1,2,1,1,1,2,1,2,1,2,1],
-  [1,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,1],
-  [1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1],
+  [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
+  [1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,3],
+  [1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1,3],
+  [1,2,1,2,1,2,1,2,1,1,1,1,1,1,1,1,2,1,3],
+  [1,2,1,2,2,2,1,2,2,2,1,2,2,1,2,2,2,1,3],
+  [1,2,2,2,1,2,1,1,2,1,1,1,2,1,1,2,1,1,3],
+  [1,1,1,2,1,2,1,1,2,4,2,2,2,2,1,2,1,1,3],
+  [3,2,2,2,1,2,1,1,2,1,1,2,1,1,1,2,2,3,3],
+  [1,1,1,2,2,2,2,1,1,1,1,2,2,2,2,2,1,1,3],
+  [1,1,1,2,1,1,2,2,2,1,1,1,1,1,1,2,1,1,3],
+  [1,2,2,2,1,1,1,1,2,2,2,2,2,1,2,2,2,1,3],
+  [1,2,1,2,2,2,2,1,2,1,1,1,2,1,2,1,2,1,3],
+  [1,8,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,1,3],
+  [1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,3],
+  [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
 ]
 
 function drawMap(){
@@ -75,14 +82,22 @@ function drawMap(){
       else if(boardData[y][x] === 7){
         drawPacmanDown();
       }
+      else if(boardData[y][x] === 8){
+        drawGhost();
+      }
     }
     document.getElementById("game-board").innerHTML += "<br>";
   }
 }
 
+let score = 0;
+function updateScore(){
+  document.getElementById("score").innerHTML = "Score: " + score;;
+}
+
 const Pacman = function(){
   this.x = 9;
-  this.y = 5;
+  this.y = 6;
 }
 
 
@@ -91,47 +106,64 @@ Pacman.prototype.move = function(someKeyCode){
   switch(someKeyCode){
     case 37: //Left
       if(boardData[currentGame.pacman.y][currentGame.pacman.x-1] !== 1){
+        if(boardData[currentGame.pacman.y][currentGame.pacman.x-1] === 2){
+          score += 10;
+          updateScore();
+        }
+        if(currentPacman.x < 0){
+          currentPacman.x = 18;
+        }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x -= 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 5;
-        if(currentPacman.x < 0){
-          currentPacman.x = 17;
-        }
         drawMap();
       }
     break;
     case 39: //Right
       if(boardData[currentGame.pacman.y][currentGame.pacman.x+1] !== 1){
+        if(boardData[currentGame.pacman.y][currentGame.pacman.x+1] === 2){
+          score += 10;
+          updateScore();
+        }
+        if(currentPacman.x > 16){
+          boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
+          currentPacman.x = -1;
+        }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x += 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 4;
-        if(currentPacman.x > 16){
-          currentPacman.x = 0;
-        }
         drawMap();
       }
     break;
     case 38: //Up
       if(boardData[currentGame.pacman.y-1][currentGame.pacman.x] !== 1){
+        if(boardData[currentGame.pacman.y-1][currentGame.pacman.x] === 2){
+          score += 10;
+          updateScore();
+        }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y -= 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 6;
-        
         if(currentPacman.y < 1){
-          currentPacman.y = 12;
-        }
-        
+          boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
+          currentPacman.y = 14;
+          }
         drawMap(); 
       }
     break;
     case 40: //Down
       if(boardData[currentGame.pacman.y+1][currentGame.pacman.x] !== 1){
+        if(boardData[currentGame.pacman.y+1][currentGame.pacman.x] === 2){
+          score += 10;
+          updateScore();
+        }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y += 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 7;
-        if(currentPacman.y > 11){
-          currentPacman.y = 0;
-        }
+        if(currentPacman.y > 13){
+           boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
+           currentPacman.y = 0;
+          }
         drawMap();
       }
     break;
@@ -152,6 +184,7 @@ function startGame() {
   currentPacman = new Pacman();
   currentGame.pacman = currentPacman;
   drawMap();
+  
   console.log("the game: ", currentPacman.y);
   
 
@@ -160,7 +193,6 @@ function startGame() {
 document.onkeydown = function(event){
   currentGame.pacman.move(event.keyCode)
 }
-
 
 
 
