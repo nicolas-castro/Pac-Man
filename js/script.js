@@ -33,7 +33,7 @@ window.onload = function() {
    function drawPacmanDown(){
     document.getElementById("game-board").innerHTML += "<div class=' tile down'></div>";
   }
-  // 8 = <div class="tile ghost"></div>
+  //8 = <div class="tile ghost"></div>
   function drawGhost(){
     document.getElementById("game-board").innerHTML += "<div class=' tile ghost'></div>";
   }
@@ -42,7 +42,7 @@ window.onload = function() {
 let boardData = [
   [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
   [1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,3],
-  [1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1,3],
+  [1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,8,1,3],
   [1,2,1,2,1,2,1,2,1,1,1,1,1,1,1,1,2,1,3],
   [1,2,1,2,2,2,1,2,2,2,1,2,2,1,2,2,2,1,3],
   [1,2,2,2,1,2,1,1,2,1,1,1,2,1,1,2,1,1,3],
@@ -52,7 +52,7 @@ let boardData = [
   [1,1,1,2,1,1,2,2,2,1,1,1,1,1,1,2,1,1,3],
   [1,2,2,2,1,1,1,1,2,2,2,2,2,1,2,2,2,1,3],
   [1,2,1,2,2,2,2,1,2,1,1,1,2,1,2,1,2,1,3],
-  [1,8,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,1,3],
+  [1,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,8,1,3],
   [1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,3],
   [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
 ]
@@ -99,8 +99,6 @@ const Pacman = function(){
   this.x = 9;
   this.y = 6;
 }
-
-
 
 Pacman.prototype.move = function(someKeyCode){
   switch(someKeyCode){
@@ -170,22 +168,49 @@ Pacman.prototype.move = function(someKeyCode){
   }
 }
 
+function Ghost(thisX, thisY){
+  this.x = thisX;
+  this.y = thisY;
+}
+
+Ghost.prototype.move = function(){
+  if(boardData[currentGame.ghost.y][currentGame.ghost.x-1] === 2){
+     boardData[currentGame.ghost.y][currentGame.ghost.x] = 2;
+     currentGhost.x -= 1;
+     boardData[currentGame.ghost.y][currentGame.ghost.x] = 8;
+  }
+  else if(boardData[currentGame.ghost.y][currentGame.ghost.x-1] === 1){
+    boardData[currentGame.ghost.y][currentGame.ghost.x] = 2;
+    currentGhost.x += 1;
+    boardData[currentGame.ghost.y][currentGame.ghost.x] = 8;
+  }
+  drawMap();
+}
 
 const Game = function(){
   this.pacman = {};
-  
+  this.ghost = [];
 }
 
 let currentGame;
 let currentPacman;
+let currentGhost;
 
 function startGame() {
   currentGame = new Game();
   currentPacman = new Pacman();
   currentGame.pacman = currentPacman;
-  drawMap();
+  currentGhost = new Ghost(16,12);
   
-  console.log("the game: ", currentPacman.y);
+  
+  currentGame.ghost = currentGhost;
+  
+  drawMap();
+
+  setInterval (currentGame.ghost.move , 500);
+  
+  console.log("Pacman Y position: ", currentPacman.y);
+  console.log("Ghost position", currentGhost.x , currentGhost.y );
   
 
 }
