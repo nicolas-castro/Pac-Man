@@ -91,13 +91,20 @@ function drawMap(){
 }
 
 let score = 0;
+
 function updateScore(){
   document.getElementById("score").innerHTML = "Score: " + score;;
+}
+
+function gameOver(){
+  document.getElementById("game-board").innerHTML = "";
+  
 }
 
 const Pacman = function(){
   this.x = 9;
   this.y = 6;
+  this.checkCollison = false;
 }
 
 Pacman.prototype.move = function(someKeyCode){
@@ -108,12 +115,16 @@ Pacman.prototype.move = function(someKeyCode){
           score += 10;
           updateScore();
         }
+        if(boardData[currentGame.pacman.y][currentGame.pacman.x-1] === 8){
+          currentGame.pacman.checkCollison = true;
+        }
         if(currentPacman.x < 0){
           currentPacman.x = 18;
         }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x -= 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 5;
+        
         drawMap();
       }
     break;
@@ -123,6 +134,9 @@ Pacman.prototype.move = function(someKeyCode){
           score += 10;
           updateScore();
         }
+        if(boardData[currentGame.pacman.y][currentGame.pacman.x+1] === 8){
+          currentGame.pacman.checkCollison = true;
+        }
         if(currentPacman.x > 16){
           boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
           currentPacman.x = -1;
@@ -130,6 +144,7 @@ Pacman.prototype.move = function(someKeyCode){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x += 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 4;
+        
         drawMap();
       }
     break;
@@ -138,6 +153,9 @@ Pacman.prototype.move = function(someKeyCode){
         if(boardData[currentGame.pacman.y-1][currentGame.pacman.x] === 2){
           score += 10;
           updateScore();
+        }
+        if(boardData[currentGame.pacman.y-1][currentGame.pacman.x] === 8){
+          currentGame.pacman.checkCollison = true;
         }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y -= 1;
@@ -155,13 +173,17 @@ Pacman.prototype.move = function(someKeyCode){
           score += 10;
           updateScore();
         }
+        if(boardData[currentGame.pacman.y+1][currentGame.pacman.x] === 8){
+          currentGame.pacman.checkCollison = true;
+        }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y += 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 7;
         if(currentPacman.y > 13){
-           boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
-           currentPacman.y = 0;
-          }
+          boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
+          currentPacman.y = 0;
+        }
+        
         drawMap();
       }
     break;
@@ -204,10 +226,11 @@ function startGame() {
   
   
   currentGame.ghost = currentGhost;
-  
   drawMap();
+  
 
   setInterval (currentGame.ghost.move , 500);
+  
   
   console.log("Pacman Y position: ", currentPacman.y);
   console.log("Ghost position", currentGhost.x , currentGhost.y );
@@ -250,9 +273,4 @@ document.onkeydown = function(event){
 
 
 };
-function newFunction(currentPacman) {
-  if (currentPacman.x < 0) {
-    currentPacman.x = 17;
-  }
-}
 
