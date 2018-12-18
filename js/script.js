@@ -2,7 +2,7 @@ window.onload = function() {
   document.getElementById("start-button").onclick = function() {
     startGame();
   };
-  
+
   
 
   // 1 =  <div class="tile wall"></div>
@@ -58,6 +58,12 @@ let boardData = [
 ]
 
 function drawMap(){
+  if(currentPacman.checkCollison){
+    return
+  };
+  if(currentGhost2.checkCollison){
+    return
+  };
   document.getElementById("game-board").innerHTML = "";
   for(var y = 0; y < boardData.length; y++){
     for(var x =0; x < boardData[y].length; x++){
@@ -95,10 +101,15 @@ let score = 0;
 function updateScore(){
   document.getElementById("score").innerHTML = "Score: " + score;;
 }
+function clearBoard(){
+  document.getElementById("game-board").innerHTML = "";
+}
 
 function gameOver(){
-  document.getElementById("game-board").innerHTML = "";
-  
+  clearBoard();
+  document.getElementById("game-over").innerHTML = "<h4 class='neon'> </h4>" +
+  "<h4 class='neon'>G<span>a</span>m<span>e</span><span> O</span>ve<span>r</span></h4>" +
+  "<div class='deco'><div class='line'></div><div class='line'></div><div class='line'></div><div class='line'></div></div>";
 }
 
 const Pacman = function(){
@@ -117,6 +128,7 @@ Pacman.prototype.move = function(someKeyCode){
         }
         if(boardData[currentGame.pacman.y][currentGame.pacman.x-1] === 8){
           currentGame.pacman.checkCollison = true;
+          gameOver();
         }
         if(currentPacman.x < 0){
           currentPacman.x = 18;
@@ -136,6 +148,7 @@ Pacman.prototype.move = function(someKeyCode){
         }
         if(boardData[currentGame.pacman.y][currentGame.pacman.x+1] === 8){
           currentGame.pacman.checkCollison = true;
+          gameOver();
         }
         if(currentPacman.x > 16){
           boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
@@ -144,7 +157,6 @@ Pacman.prototype.move = function(someKeyCode){
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.x += 1;
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 4;
-        
         drawMap();
       }
     break;
@@ -155,7 +167,8 @@ Pacman.prototype.move = function(someKeyCode){
           updateScore();
         }
         if(boardData[currentGame.pacman.y-1][currentGame.pacman.x] === 8){
-          currentGame.pacman.checkCollison = true;
+        currentGame.pacman.checkCollison = true;
+        gameOver();
         }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y -= 1;
@@ -163,7 +176,7 @@ Pacman.prototype.move = function(someKeyCode){
         if(currentPacman.y < 1){
           boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
           currentPacman.y = 14;
-          }
+        }
         drawMap(); 
       }
     break;
@@ -175,6 +188,7 @@ Pacman.prototype.move = function(someKeyCode){
         }
         if(boardData[currentGame.pacman.y+1][currentGame.pacman.x] === 8){
           currentGame.pacman.checkCollison = true;
+          gameOver();
         }
         boardData[currentGame.pacman.y][currentGame.pacman.x] = 3;
         currentPacman.y += 1;
@@ -189,53 +203,87 @@ Pacman.prototype.move = function(someKeyCode){
     break;
   }
 }
-
-function Ghost(thisX, thisY){
+const Ghost= function(thisX, thisY){
   this.x = thisX;
   this.y = thisY;
+  this.checkCollison = false;
 }
 
 Ghost.prototype.move = function(){
-  if(boardData[currentGame.ghost.y][currentGame.ghost.x-1] === 2){
-     boardData[currentGame.ghost.y][currentGame.ghost.x] = 2;
+  if(boardData[currentGhost.y][currentGhost.x-1] !== 1){
+     boardData[currentGhost.y][currentGhost.x] = 2;
      currentGhost.x -= 1;
-     boardData[currentGame.ghost.y][currentGame.ghost.x] = 8;
+     boardData[currentGhost.y][currentGhost.x] = 8;
   }
-  else if(boardData[currentGame.ghost.y][currentGame.ghost.x-1] === 1){
-    boardData[currentGame.ghost.y][currentGame.ghost.x] = 2;
-    currentGhost.x += 1;
-    boardData[currentGame.ghost.y][currentGame.ghost.x] = 8;
+  else if(boardData[currentGhost.y][currentGhost.x-1] === 1){
+    boardData[currentGhost.y][currentGhost.x] = 2;
+    currentGhost.x += Math.floor(Math.random() * 11);
+    boardData[currentGhost.y][currentGhost.x] = 8;
+  }
+  if(boardData[currentGhost.y][currentGhost.x-1] === 4 ||
+     boardData[currentGhost.y][currentGhost.x-1] === 5 ||
+     boardData[currentGhost.y][currentGhost.x-1] === 6 ||
+     boardData[currentGhost.y][currentGhost.x-1] === 7){
+     currentGhost.checkCollison = true;
+    gameOver();
+  }
+  drawMap();
+}
+function Ghost2(thisX, thisY){
+  this.x = thisX;
+  this.y = thisY;
+  this.checkCollison = false;
+}
+
+Ghost2.prototype.move = function(){
+  if(boardData[currentGhost2.y][currentGhost2.x-1] !== 1){
+     boardData[currentGhost2.y][currentGhost2.x] = 2;
+     currentGhost2.x -= 1;
+     boardData[currentGhost2.y][currentGhost2.x] = 8;
+  }
+  else if(boardData[currentGhost2.y][currentGhost2.x-1] === 1){
+    boardData[currentGhost2.y][currentGhost2.x] = 2;
+    currentGhost2.x += Math.floor(Math.random() * 11);
+    boardData[currentGhost2.y][currentGhost2.x] = 8;
+  }
+  if(boardData[currentGhost2.y][currentGhost2.x-1] === 4 ||
+     boardData[currentGhost2.y][currentGhost2.x-1] === 5 ||
+     boardData[currentGhost2.y][currentGhost2.x-1] === 6 ||
+     boardData[currentGhost2.y][currentGhost2.x-1] === 7){
+     currentGhost2.checkCollison = true;
+    gameOver();
   }
   drawMap();
 }
 
 const Game = function(){
   this.pacman = {};
-  this.ghost = [];
+  //this.ghost = [];
 }
 
 let currentGame;
 let currentPacman;
 let currentGhost;
+let currentGhost2;
 
 function startGame() {
   currentGame = new Game();
   currentPacman = new Pacman();
   currentGame.pacman = currentPacman;
+  
   currentGhost = new Ghost(16,12);
-  
-  
   currentGame.ghost = currentGhost;
+  
+  currentGhost2 = new Ghost2(16,2);
+  currentGame.ghost2 = currentGhost2;
   drawMap();
   
-
-  setInterval (currentGame.ghost.move , 500);
+  console.log(currentGhost2);
+  console.log(currentGhost);
   
+  setInterval (currentGhost.move , 500);
+  setInterval (currentGhost2.move , 500);
   
-  console.log("Pacman Y position: ", currentPacman.y);
-  console.log("Ghost position", currentGhost.x , currentGhost.y );
-  
-
 }
 
 document.onkeydown = function(event){
