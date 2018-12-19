@@ -27,7 +27,7 @@
   text-transform: uppercase;
   text-shadow: 0 0 .1vw #F7CEEA, .5vw .5vw .5vw #E0018D, -.5vw -.5vw .5vw #E0018D, .5vw -.5vw .5vw #E0018D, -.5vw .5vw .5vw #E0018D, 0 -.5vw .5vw #E0018D, 0 .5vw .5vw #E0018D, .5vw .5vw .5vw #E0018D, 0 0 5vw #000;
   letter-spacing: 2vw;
-  padding-bottom: 27%;
+  padding-bottom: 32%;
   padding-left: 2%;
 }
 .neon:nth-of-type(2) span {
