@@ -42,7 +42,7 @@ window.onload = function() {
 let boardData = [
   [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
   [1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,3],
-  [1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,8,1,3],
+  [1,2,2,8,1,2,2,2,2,2,2,2,2,2,2,2,8,1,3],
   [1,2,1,2,1,2,1,2,1,1,1,1,1,1,1,1,2,1,3],
   [1,2,1,2,2,2,1,2,2,2,1,2,2,1,2,2,2,1,3],
   [1,2,2,2,1,2,1,1,2,1,1,1,2,1,1,2,1,1,3],
@@ -61,7 +61,7 @@ function drawMap(){
   if(currentPacman.checkCollison){
     return
   };
-  if(currentGhost2.checkCollison){
+  if(currentGhost2.checkCollison || currentGhost.checkCollison || currentGhost3.checkCollison){
     return
   };
   document.getElementById("game-board").innerHTML = "";
@@ -220,10 +220,10 @@ Ghost.prototype.move = function(){
     currentGhost.x += Math.floor(Math.random() * 11);
     boardData[currentGhost.y][currentGhost.x] = 8;
   }
-  if(boardData[currentGhost.y][currentGhost.x-1] === 4 ||
-     boardData[currentGhost.y][currentGhost.x-1] === 5 ||
-     boardData[currentGhost.y][currentGhost.x-1] === 6 ||
-     boardData[currentGhost.y][currentGhost.x-1] === 7){
+  if(boardData[currentGhost.y][currentGhost.x-1|| currentGhost.x+1] === 4 ||
+     boardData[currentGhost.y][currentGhost.x-1|| currentGhost.x+1] === 5 ||
+     boardData[currentGhost.y][currentGhost.x-1|| currentGhost.x+1] === 6 ||
+     boardData[currentGhost.y][currentGhost.x-1|| currentGhost.x+1] === 7){
      currentGhost.checkCollison = true;
     gameOver();
   }
@@ -246,11 +246,37 @@ Ghost2.prototype.move = function(){
     currentGhost2.x += Math.floor(Math.random() * 11);
     boardData[currentGhost2.y][currentGhost2.x] = 8;
   }
-  if(boardData[currentGhost2.y][currentGhost2.x-1] === 4 ||
-     boardData[currentGhost2.y][currentGhost2.x-1] === 5 ||
-     boardData[currentGhost2.y][currentGhost2.x-1] === 6 ||
-     boardData[currentGhost2.y][currentGhost2.x-1] === 7){
+  if(boardData[currentGhost2.y][currentGhost2.x-1|| currentGhost2.x+1] === 4 ||
+     boardData[currentGhost2.y][currentGhost2.x-1|| currentGhost2.x+1] === 5 ||
+     boardData[currentGhost2.y][currentGhost2.x-1|| currentGhost2.x+1] === 6 ||
+     boardData[currentGhost2.y][currentGhost2.x-1|| currentGhost2.x+1] === 7){
      currentGhost2.checkCollison = true;
+    gameOver();
+  }
+  drawMap();
+}
+function Ghost3(thisX, thisY){
+  this.x = thisX;
+  this.y = thisY;
+  this.checkCollison = false;
+}
+
+Ghost3.prototype.move = function(){
+  if(boardData[currentGhost3.y+1][currentGhost3.x] !== 1){
+     boardData[currentGhost3.y][currentGhost3.x] = 2;
+     currentGhost3.y += 1;
+     boardData[currentGhost3.y][currentGhost3.x] = 8;
+  }
+  else if(boardData[currentGhost3.y+1][currentGhost3.x] === 1){
+    boardData[currentGhost3.y][currentGhost3.x] = 2;
+    currentGhost3.y -= Math.floor(Math.random() * 11);
+    boardData[currentGhost3.y][currentGhost3.x] = 8;
+  }
+  if(boardData[currentGhost3.y+1 || currentGhost3.y-1][currentGhost3.x] === 4 ||
+     boardData[currentGhost3.y+1 || currentGhost3.y-1][currentGhost3.x] === 5 ||
+     boardData[currentGhost3.y+1 || currentGhost3.y-1][currentGhost3.x] === 6 ||
+     boardData[currentGhost3.y+1 || currentGhost3.y-1][currentGhost3.x] === 7){
+     currentGhost3.checkCollison = true;
     gameOver();
   }
   drawMap();
@@ -265,6 +291,7 @@ let currentGame;
 let currentPacman;
 let currentGhost;
 let currentGhost2;
+let currentGhost3;
 
 function startGame() {
   currentGame = new Game();
@@ -276,13 +303,14 @@ function startGame() {
   
   currentGhost2 = new Ghost2(16,2);
   currentGame.ghost2 = currentGhost2;
+
+  currentGhost3 = new Ghost3(3,2);
+  currentGame.ghost3 = currentGhost3;
   drawMap();
   
-  console.log(currentGhost2);
-  console.log(currentGhost);
-  
-  setInterval (currentGhost.move , 500);
-  setInterval (currentGhost2.move , 500);
+  setInterval (currentGhost.move , 400);
+  setInterval (currentGhost2.move , 400);
+  setInterval (currentGhost3.move , 400);
   
 }
 

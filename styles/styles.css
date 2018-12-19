@@ -7,7 +7,7 @@ body{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 42%;
+  width: 30%;
 }
 
 #logo {
@@ -41,8 +41,8 @@ body button {
 }
 
 .tile{
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
   vertical-align: top;
   
