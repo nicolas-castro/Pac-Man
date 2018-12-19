@@ -7,7 +7,7 @@ body{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 38%;
+  width: 30%;
 }
 
 #logo {
@@ -21,8 +21,8 @@ body{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height: 58px;
-  width: 317px;
+  height: 38px;
+  width: 217px;
 }
 
 body button {
@@ -107,7 +107,7 @@ body button {
 #score {
   
   color: gold;
-  font-size: 20px;
+  font-size: 15px;
   padding-left: 58%;
   font-family: 'Press Start 2P', cursive;
   
