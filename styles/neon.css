@@ -19,15 +19,16 @@
   -webkit-user-select: none;
 }
 .neon:nth-of-type(1) {
-  font: 9vw Warnes;
+  font: 8vw Warnes;
   text-shadow: 0 0 .1vw #F3BCBC, 0 0 .5vw #F12F21, 0 0 1.5vw #f00;
 }
 .neon:nth-of-type(2) {
-  font: 12vw 'Hello Denver';
+  font: 11vw 'Hello Denver';
   text-transform: uppercase;
   text-shadow: 0 0 .1vw #F7CEEA, .5vw .5vw .5vw #E0018D, -.5vw -.5vw .5vw #E0018D, .5vw -.5vw .5vw #E0018D, -.5vw .5vw .5vw #E0018D, 0 -.5vw .5vw #E0018D, 0 .5vw .5vw #E0018D, .5vw .5vw .5vw #E0018D, 0 0 5vw #000;
   letter-spacing: 2vw;
-  padding-bottom: 36%;
+  padding-bottom: 27%;
+  padding-left: 2%;
 }
 .neon:nth-of-type(2) span {
   animation: Flicker .23s infinite;
@@ -36,7 +37,7 @@
   animation: Flicker .23s infinite;
 }
 .neon:nth-of-type(3) {
-  font: 13vw 'Neon Lights', 'Hello Denver';
+  font: 12vw 'Neon Lights', 'Hello Denver';
   text-transform: uppercase;
   text-shadow: 0 0 .1vw #95B4DA, 0 0 1vw #008EFF;
 }
@@ -56,7 +57,7 @@
   border-radius: 1.5vw;
   box-shadow: 0 0 1vw 1.2vw #024B5D;
   height: 3vw;
-  width: 90%;
+  width: 80%;
   margin: 3vw auto;
   background: #ACDAB8;
   border: 1.3vw solid #FEFAC8;
@@ -68,7 +69,7 @@
   top: 0;
   left: 0;
   height: .5vw;
-  width: 100%;
+  width: 90%;
   background: #ACDAB8;
   box-shadow: 0 0 .2vw .2vw #ACDAB8;
   border-radius: .3vw;
