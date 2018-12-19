@@ -64,6 +64,9 @@ function drawMap(){
   if(currentGhost2.checkCollison || currentGhost.checkCollison || currentGhost3.checkCollison){
     return
   };
+  if(score > 300){
+    return 
+  }
   document.getElementById("game-board").innerHTML = "";
   for(var y = 0; y < boardData.length; y++){
     for(var x =0; x < boardData[y].length; x++){
@@ -99,10 +102,18 @@ function drawMap(){
 let score = 0;
 
 function updateScore(){
-  document.getElementById("score").innerHTML = "Score: " + score;;
+  document.getElementById("score").innerHTML = "Score: " + score;
+  if(score > 300){
+    win();
+  }
 }
 function clearBoard(){
   document.getElementById("game-board").innerHTML = "";
+}
+
+function win(){
+  clearBoard();
+  document.getElementById("game-over").innerHTML = "<div class=' win'></div>";
 }
 
 function gameOver(){
